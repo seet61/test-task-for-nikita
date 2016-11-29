@@ -21,7 +21,6 @@ def ungzip_logs(os):
         with gzip.open(file, 'rb') as gz:
            file_content = gz.read()
            with open(file[:-3], "w") as out:
-                #for line in file_content:
                 out.writelines(file_content)
            analize_content(file[:-3])
         os.remove(file[:-3])
@@ -42,9 +41,12 @@ def analize_content(file_content):
     print_info(info)
 
 def print_info(info):
-    for k, v in info.iteritems():
+    #get keys and sorted by date
+    keys = info.keys()
+    keys = sorted(keys, key=lambda d: map(str, d.split('.')))
+    for k in keys:
         print "[", k, "]"
-        for key, value in v.iteritems():
+        for key, value in info[k].iteritems():
             print '%-20s:%s' % (key, value)
 
 if __name__ == '__main__':
